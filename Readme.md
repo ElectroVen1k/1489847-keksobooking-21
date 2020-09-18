@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Фуфыгин](https://up.htmlacademy.ru/javascript/21/user/1489847).
-* Наставник: `Неизвестно`.
+* Наставник: [Федотов Александр] (https://htmlacademy.ru/profile/id247015).
 
 ---
 
