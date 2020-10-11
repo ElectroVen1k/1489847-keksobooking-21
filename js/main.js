@@ -1,6 +1,6 @@
 'use strict';
 
-const announcementMap = document.querySelector('.map');
+const announcementMapElement = document.querySelector('.map');
 const ANNOUNCEMENT_MAP_WIDTH = 1200;
 const ANNOUNCEMENTS_QUANTITY = 8;
 const PIN_Y_START = 130;
@@ -27,7 +27,7 @@ const ANNOUNCEMENT_PHOTOS_LIST = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-announcementMap.classList.remove('map--faded');
+announcementMapElement.classList.remove('map--faded');
 
 const announcementParametrs = {
   author: {
@@ -53,60 +53,55 @@ const announcementParametrs = {
 };
 
 const getRandom = function (min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-let avatarsQuantity = ANNOUNCEMENTS_QUANTITY;
+let avatarsId = 1;
 
-const getAvatar = function () {
-  const avatar = 'img/avatars/user0' + avatarsQuantity + '.png';
-  avatarsQuantity = avatarsQuantity - 1;
+const getAvatar = function (Id) {
+  let avatar = '';
+  if (avatarsId < 10) {
+    avatar = 'img/avatars/user0' + Id + '.png';
+  } else {
+    avatar = 'img/avatars/user' + Id + '.png';
+  }
+  avatarsId = avatarsId + 1;
   return avatar;
 };
 
-const getFeatures = function () {
-  let features = [];
-  let featuresList = Object.assign([], ANNOUNCEMENT_FEATURES_LIST);
+const createMixedList = function (originList) {
+  const mixedList = [].concat(originList);
+  const randomLength = getRandom(1, originList.length);
 
-  for (let i = 0; i < getRandom(1, ANNOUNCEMENT_FEATURES_LIST.length); i++) {
-    let j = getRandom(0, featuresList.length);
-
-    features.push(featuresList[j]);
-    featuresList.splice(j, 1);
+  for (let i = 0; i < randomLength; i++) {
+    let j = getRandom(0, mixedList.length);
+    if (j === mixedList.length) {
+      j = j - 1;
+    }
+    mixedList.splice(j, 1);
   }
-  return features;
-};
-
-const getPhotos = function () {
-  let photos = [];
-  let photosList = Object.assign([], ANNOUNCEMENT_PHOTOS_LIST);
-
-  for (let i = 0; i < getRandom(1, ANNOUNCEMENT_PHOTOS_LIST.length); i++) {
-    let j = getRandom(0, photosList.length);
-
-    photos.push(photosList[j]);
-    photosList.splice(j, 1);
-  }
-  return photos;
+  return mixedList;
 };
 
 const getAnnouncement = function () {
   const announcement = Object.assign({}, announcementParametrs);
-  announcement.author.avatar = getAvatar();
+  announcement.author.avatar = getAvatar(avatarsId);
   announcement.location.x = getRandom(1, ANNOUNCEMENT_MAP_WIDTH);
   announcement.location.y = getRandom(PIN_Y_START, PIN_Y_END);
   announcement.offer.address = announcement.location.x + ', ' + announcement.location.y;
-  announcement.offer.features = getFeatures();
-  announcement.offer.photos = getPhotos();
+  announcement.offer.features = createMixedList(ANNOUNCEMENT_FEATURES_LIST);
+  announcement.offer.photos = createMixedList(ANNOUNCEMENT_PHOTOS_LIST);
   return announcement;
 };
 
 const getAnnouncementElement = function (announcement) {
   const pinElement = templatePin.cloneNode(true);
+  const pinImage = pinElement.querySelector('img');
+
   pinElement.style.left = announcement.location.x - PIN_WIDTH + 'px';
   pinElement.style.top = announcement.location.y - PIN_HEIGHT + 'px';
-  pinElement.querySelector('img').src = announcement.author.avatar;
-  pinElement.querySelector('img').alt = announcement.offer.title;
+  pinImage.src = announcement.author.avatar;
+  pinImage.alt = announcement.offer.title;
   return pinElement;
 };
 
@@ -121,6 +116,6 @@ const getAnnouncementPins = function (quantity) {
   return fragmentPins;
 };
 
-const announcementsPin = getAnnouncementPins(ANNOUNCEMENTS_QUANTITY);
+const announcementPins = getAnnouncementPins(ANNOUNCEMENTS_QUANTITY);
 
-announcementPinsBlock.appendChild(announcementsPin);
+announcementPinsBlock.appendChild(announcementPins);
