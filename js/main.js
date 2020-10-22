@@ -171,12 +171,9 @@ const enablePage = function () {
 };
 
 const onMainPinMousedown = function (evt) {
-  if (typeof evt === 'object') {
-    switch (evt.button) {
-      case 0:
-        enablePage();
-        createAddress();
-    }
+  if (typeof evt === 'object' && evt.button === 0) {
+    enablePage();
+    createAddress();
   }
 };
 
@@ -219,107 +216,67 @@ const typeHousingInput = newAnnouncementForm.querySelector('#type');
 const nightPriceInput = newAnnouncementForm.querySelector('#price');
 const timeInInput = newAnnouncementForm.querySelector('#timein');
 const timeOutInput = newAnnouncementForm.querySelector('#timeout');
-const roomQuantity = newAnnouncementForm.querySelector('#room_number');
-const guestQuantity = newAnnouncementForm.querySelector('#capacity');
+const roomQuantityInput = newAnnouncementForm.querySelector('#room_number');
+const guestQuantityInput = newAnnouncementForm.querySelector('#capacity');
+
+const priceForTypeHousingMap = {
+  bungalow: '0',
+  flat: '1000',
+  house: '5000',
+  palace: '10000'
+};
 
 const validPrice = function () {
-  if (typeHousingInput.value === 'bungalow') {
-    nightPriceInput.setAttribute('min', '0');
-    nightPriceInput.setAttribute('placeholder', '0');
-  } else if (typeHousingInput.value === 'flat') {
-    nightPriceInput.setAttribute('min', '1000');
-    nightPriceInput.setAttribute('placeholder', '1000');
-  } else if (typeHousingInput.value === 'house') {
-    nightPriceInput.setAttribute('min', '5000');
-    nightPriceInput.setAttribute('placeholder', '5000');
-  } else if (typeHousingInput.value === 'palace') {
-    nightPriceInput.setAttribute('min', '10000');
-    nightPriceInput.setAttribute('placeholder', '10000');
-  }
+  const typeHouse = typeHousingInput.value;
+  nightPriceInput.setAttribute('min', priceForTypeHousingMap[typeHouse]);
+  nightPriceInput.setAttribute('placeholder', priceForTypeHousingMap[typeHouse]);
 };
 
 const validTimeOut = function () {
-  if (timeInInput.value === '12:00') {
-    timeOutInput.value = '12:00';
-  } else if (timeInInput.value === '13:00') {
-    timeOutInput.value = '13:00';
-  } else if (timeInInput.value === '14:00') {
-    timeOutInput.value = '14:00';
-  }
+  timeOutInput.value = timeInInput.value;
 };
+
 const validTimeIn = function () {
-  if (timeOutInput.value === '12:00') {
-    timeInInput.value = '12:00';
-  } else if (timeOutInput.value === '13:00') {
-    timeInInput.value = '13:00';
-  } else if (timeOutInput.value === '14:00') {
-    timeInInput.value = '14:00';
-  }
+  timeInInput.value = timeOutInput.value;
+};
+
+const roomToGuestQuantityMap = {
+  1: [1],
+  2: [1, 2],
+  3: [1, 2, 3],
+  100: [0],
+};
+
+const roomCustomValidityMap = {
+  1: 'Только для 1 гостя',
+  2: 'Максимум для 2 гостей',
+  3: 'Максимум для 3 гостей',
+  100: 'Такой выбор не для гостей'
 };
 
 const validGuestQuantity = function () {
-  const guestQuantityList = guestQuantity.children;
-
-  if (roomQuantity.value === '1') {
-    for (let item of guestQuantityList) {
-      if (item.value !== '1') {
-        item.style.display = 'none';
-      } else {
-        item.style.display = 'block';
-      }
-    }
-  }
-
-  if (roomQuantity.value === '2') {
-    for (let item of guestQuantityList) {
-      if (item.value !== '2' && item.value !== '1') {
-        item.style.display = 'none';
-
-      } else {
-        item.style.display = 'block';
-      }
-    }
-  }
-
-  if (roomQuantity.value === '3') {
-    for (let item of guestQuantityList) {
-      if (item.value !== '3' && item.value !== '2' && item.value !== '1') {
-        item.style.display = 'none';
-      } else {
-        item.style.display = 'block';
-      }
-    }
-  }
-
-  if (roomQuantity.value === '100') {
-    for (let item of guestQuantityList) {
-      if (item.value !== '0') {
-        item.style.display = 'none';
-      } else {
-        item.style.display = 'block';
-      }
-    }
+  const guestQuantityList = guestQuantityInput.children;
+  for (let item of guestQuantityList) {
+    const itemValue = Number(item.value);
+    const isGuestFitInRoom = roomToGuestQuantityMap[roomQuantityInput.value].indexOf(itemValue) !== -1;
+    item.style.display = isGuestFitInRoom ? 'block' : 'none';
   }
 };
 
 const guestCustomValidity = function () {
-  if (roomQuantity.value === '1' && guestQuantity.value !== '1') {
-    guestQuantity.setCustomValidity('Только для 1 гостя');
-  } else if (roomQuantity.value === '2' && guestQuantity.value !== '1' && guestQuantity.value !== '2') {
-    guestQuantity.setCustomValidity('Максимум для 2 гостей');
-  } else if (roomQuantity.value === '3' && guestQuantity.value === '0') {
-    guestQuantity.setCustomValidity('Максимум для 3 гостей');
-  } else if (roomQuantity.value === '100' && guestQuantity.value !== '0') {
-    guestQuantity.setCustomValidity('Такой выбор не для гостей');
+  const guestCount = Number(guestQuantityInput.value);
+  const isGuestFitInRoom = roomToGuestQuantityMap[roomQuantityInput.value].indexOf(guestCount) === -1;
+  if (isGuestFitInRoom) {
+    guestQuantityInput.setCustomValidity(roomCustomValidityMap[roomQuantityInput.value]);
   } else {
-    guestQuantity.setCustomValidity('');
+    guestQuantityInput.setCustomValidity('');
   }
 };
 
 const newAnnouncementFormValiadtion = function () {
-  guestQuantity.addEventListener('change', guestCustomValidity);
-  roomQuantity.addEventListener('change', guestCustomValidity);
-  roomQuantity.addEventListener('change', validGuestQuantity);
+  guestQuantityInput.addEventListener('change', guestCustomValidity);
+  roomQuantityInput.addEventListener('change', guestCustomValidity);
+  roomQuantityInput.addEventListener('change', validGuestQuantity);
   timeOutInput.addEventListener('change', validTimeIn);
   timeInInput.addEventListener('change', validTimeOut);
   typeHousingInput.addEventListener('change', validPrice);
