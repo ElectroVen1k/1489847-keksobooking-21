@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  const ANNOUNCEMENTS_QUANTITY = 8;
+  const ANNOUNCEMENTS_QUANTITY = 6;
   const PIN_HEIGHT = 66;
   const PIN_WIDTH = 50;
   const templatePin = document.querySelector('#pin')
@@ -24,7 +24,7 @@
 
     const getAnnouncementPins = function (quantity) {
       for (let i = 0; i < quantity; i++) {
-        const announcement = window.getAnnouncement();
+        const announcement = window.newAnnouncementList[i];
         const announcementPin = getAnnouncementElement(announcement);
         fragmentPins.appendChild(announcementPin);
       }
