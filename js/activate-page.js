@@ -42,7 +42,7 @@
   const enablePage = function () {
     enableActiveElement();
     announcementMapElement.classList.remove('map--faded');
-    window.createPins();
+    window.createPins(window.newAnnouncementList);
     window.newAnnouncementFormValiadtion();
     mainPin.removeEventListener('mousedown', onMainPinMousedown);
     mainPin.removeEventListener('keydown', onMainPinPressEnter);
