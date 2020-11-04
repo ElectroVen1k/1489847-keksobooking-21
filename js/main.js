@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  const ANNOUNCEMENTS_QUANTITY = 6;
+  const MAX_ANNOUNCEMENTS_QUANTITY = 5;
   const PIN_HEIGHT = 66;
   const PIN_WIDTH = 50;
   const templatePin = document.querySelector('#pin')
@@ -19,20 +19,25 @@
     return pinElement;
   };
 
-  window.createPins = function () {
+  window.createPins = function (list) {
     const fragmentPins = document.createDocumentFragment();
 
-    const getAnnouncementPins = function (quantity) {
+    const getAnnouncementPins = function () {
+      const quantity = list.length < MAX_ANNOUNCEMENTS_QUANTITY
+        ? list.length
+        : MAX_ANNOUNCEMENTS_QUANTITY;
+
       for (let i = 0; i < quantity; i++) {
-        const announcement = window.newAnnouncementList[i];
+        const announcement = list[i];
         const announcementPin = getAnnouncementElement(announcement);
         fragmentPins.appendChild(announcementPin);
       }
       return fragmentPins;
     };
 
-    const announcementPins = getAnnouncementPins(ANNOUNCEMENTS_QUANTITY);
+    const announcementPins = getAnnouncementPins();
 
+    announcementPinsBlock.innerHTML = '';
     announcementPinsBlock.appendChild(announcementPins);
   };
 })();

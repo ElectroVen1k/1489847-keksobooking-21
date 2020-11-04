@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var URL = 'https://21.javascript.pages.academy/keksobooking/data';
-  var statusCode = {
+  var StatusCode = {
     OK: 200
   };
   var TIMEOUT_IN_MS = 5000;
@@ -11,7 +11,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusCode.OK) {
+      if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
