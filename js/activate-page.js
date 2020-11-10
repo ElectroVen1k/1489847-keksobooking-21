@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   const announcementMapElement = document.querySelector('.map');
-  const mainPin = document.querySelector('.map__pin');
+  const mainPin = document.querySelector('.map__pin--main');
   const newAnnouncementForm = document.querySelector('.ad-form');
   const filterAnnouncementForm = document.querySelector('.map__filters');
   const addressInput = newAnnouncementForm.querySelector('#address');

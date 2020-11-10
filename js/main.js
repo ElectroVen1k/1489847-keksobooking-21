@@ -16,7 +16,11 @@
     pinElement.style.top = announcement.location.y - PIN_HEIGHT + 'px';
     pinImage.src = announcement.author.avatar;
     pinImage.alt = announcement.offer.title;
+
+    window.cardHandler(pinElement, announcement);
+
     return pinElement;
+
   };
 
   window.createPins = function (list) {
