@@ -42,16 +42,17 @@
   const enablePage = function () {
     enableActiveElement();
     announcementMapElement.classList.remove('map--faded');
+    newAnnouncementForm.classList.remove('ad-form--disabled');
     window.createPins(window.newAnnouncementList);
     window.newAnnouncementFormValiadtion();
     mainPin.removeEventListener('mousedown', onMainPinMousedown);
     mainPin.removeEventListener('keydown', onMainPinPressEnter);
   };
 
-  const onMainPinMousedown = function (evt) {
+  window.onMainPinMousedown = function (evt) {
     if (typeof evt === 'object' && evt.button === 0) {
       enablePage();
-      createAddress();
+      window.createAddress();
     }
   };
 
@@ -62,7 +63,6 @@
   };
 
   disableActiveElement();
-  mainPin.addEventListener('mousedown', onMainPinMousedown);
   mainPin.addEventListener('keydown', onMainPinPressEnter);
 
   const getСoordinatesPin = function () {
@@ -81,7 +81,7 @@
 
   createPrimaryAddress();
 
-  const createAddress = function () {
+  window.createAddress = function () {
     const coordinates = getСoordinatesPin();
     const xCoordite = coordinates.x + MAIN_PIN_WIDTH / 2;
     const yCoordite = coordinates.y + MAIN_PIN_HEIGHT + MAIN_PIN_ARROWHEAD;
