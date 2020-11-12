@@ -24,7 +24,7 @@
   };
 
   window.createPins = function (list) {
-    removeOldPins();
+    window.removeOldPins();
 
     const fragmentPins = document.createDocumentFragment();
 
@@ -46,7 +46,7 @@
     announcementPinsBlock.appendChild(announcementPins);
   };
 
-  const removeOldPins = function () {
+  window.removeOldPins = function () {
     const neededElements = 2;
     const allElements = announcementPinsBlock.children;
     const allElementsCount = announcementPinsBlock.children.length;

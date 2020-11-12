@@ -5,6 +5,7 @@
   const newAnnouncementForm = document.querySelector('.ad-form');
   const filterAnnouncementForm = document.querySelector('.map__filters');
   const addressInput = newAnnouncementForm.querySelector('#address');
+  const resetPageButton = document.querySelector('.ad-form__reset');
   const MAIN_PIN_WIDTH = 66;
   const MAIN_PIN_HEIGHT = 66;
   const MAIN_PIN_ARROWHEAD = 20;
@@ -45,8 +46,8 @@
     newAnnouncementForm.classList.remove('ad-form--disabled');
     window.createPins(window.newAnnouncementList);
     window.newAnnouncementFormValiadtion();
-    mainPin.removeEventListener('mousedown', onMainPinMousedown);
     mainPin.removeEventListener('keydown', onMainPinPressEnter);
+    resetPageButton.addEventListener('click', window.resetPage);
   };
 
   window.onMainPinMousedown = function (evt) {
@@ -86,5 +87,17 @@
     const xCoordite = coordinates.x + MAIN_PIN_WIDTH / 2;
     const yCoordite = coordinates.y + MAIN_PIN_HEIGHT + MAIN_PIN_ARROWHEAD;
     addressInput.value = xCoordite + ', ' + yCoordite;
+  };
+
+  window.resetPage = function () {
+    newAnnouncementForm.reset();
+    filterAnnouncementForm.reset();
+    announcementMapElement.classList.add('map--faded');
+    newAnnouncementForm.classList.add('ad-form--disabled');
+    disableActiveElement();
+    createPrimaryAddress();
+    window.removeCard();
+    window.removeOldPins();
+    window.returnMainPin();
   };
 })();

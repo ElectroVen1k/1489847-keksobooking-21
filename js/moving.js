@@ -8,10 +8,14 @@
   const RIGHT_EXTREME_COORD = 1200 - MAIN_PIN_WIDTH / 2;
   const TOP_EXTREME_COORD = 130 - MAIN_PIN_HEIGHT - MAIN_PIN_ARROWHEAD;
   const BOTTOM_EXTREME_COORD = 630 - MAIN_PIN_HEIGHT - MAIN_PIN_ARROWHEAD;
+  const PRIMARY_MAIN_PIN_COORD = {
+    x: 570,
+    y: 375
+  };
 
 
   mainPin.addEventListener('mousedown', function (evt) {
-    evt.preventDefault()
+    evt.preventDefault();
     window.onMainPinMousedown(evt);
 
     let startCoords = {
@@ -19,10 +23,10 @@
       y: evt.clientY
     };
 
-    let onMouseMove = function (moveEvt) {
+    const onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      let shift = {
+      const shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
@@ -32,18 +36,18 @@
         y: moveEvt.clientY
       };
 
-      let finalCoords = {
+      const finalCoords = {
         x: mainPin.offsetLeft - shift.x,
-        y:mainPin.offsetTop - shift.y
+        y: mainPin.offsetTop - shift.y
       };
 
-      if ( finalCoords.y < TOP_EXTREME_COORD) {
+      if (finalCoords.y < TOP_EXTREME_COORD) {
         finalCoords.y = TOP_EXTREME_COORD;
       } else if (finalCoords.y > BOTTOM_EXTREME_COORD) {
         finalCoords.y = BOTTOM_EXTREME_COORD;
       }
 
-      if ( finalCoords.x < LEFT_EXTREME_COORD) {
+      if (finalCoords.x < LEFT_EXTREME_COORD) {
         finalCoords.x = LEFT_EXTREME_COORD;
       } else if (finalCoords.x > RIGHT_EXTREME_COORD) {
         finalCoords.x = RIGHT_EXTREME_COORD;
@@ -53,10 +57,9 @@
       mainPin.style.left = (finalCoords.x) + 'px';
 
       window.createAddress();
-
     };
 
-    let onMouseUp = function (upEvt) {
+    const onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
@@ -66,4 +69,9 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  window.returnMainPin = function () {
+    mainPin.style.top = (PRIMARY_MAIN_PIN_COORD.y) + 'px';
+    mainPin.style.left = (PRIMARY_MAIN_PIN_COORD.x) + 'px';
+  };
 }());
