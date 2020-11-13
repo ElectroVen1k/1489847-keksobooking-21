@@ -67,7 +67,7 @@
     card.querySelector('.popup__description').textContent = announcement.offer.description;
     cardFeatures(featuresContainer, announcement);
     cardPhotos(photosContainer, announcement);
-    closeCardButton.addEventListener('click', removeCard);
+    closeCardButton.addEventListener('click', window.removeCard);
 
     return card;
   };
@@ -75,12 +75,12 @@
   const renderCurrentCard = function (announcement) {
     const currentCard = createCard(announcement);
 
-    removeCard();
+    window.removeCard();
     filterAnnouncemets.before(currentCard);
     document.addEventListener('keydown', onEscPress);
   };
 
-  const removeCard = function () {
+  window.removeCard = function () {
     const currentCard = document.querySelector('.map__card');
     const currentPin = document.querySelector('.map__pin--active');
 
@@ -98,7 +98,7 @@
 
   const onEscPress = function (evt) {
     if (evt.key === 'Escape') {
-      removeCard();
+      window.removeCard();
     }
   };
 

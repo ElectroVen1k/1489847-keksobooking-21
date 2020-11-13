@@ -24,6 +24,8 @@
   };
 
   window.createPins = function (list) {
+    window.removeOldPins();
+
     const fragmentPins = document.createDocumentFragment();
 
     const getAnnouncementPins = function () {
@@ -41,7 +43,17 @@
 
     const announcementPins = getAnnouncementPins();
 
-    announcementPinsBlock.innerHTML = '';
     announcementPinsBlock.appendChild(announcementPins);
+  };
+
+  window.removeOldPins = function () {
+    const neededElements = 2;
+    const allElements = announcementPinsBlock.children;
+    const allElementsCount = announcementPinsBlock.children.length;
+
+    for (let i = allElementsCount; i > neededElements; i--) {
+      let lastPin = allElements[allElements.length - 1];
+      lastPin.remove();
+    }
   };
 })();
