@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   window.loadError = function (message) {
-    var error = document.createElement('div');
+    const error = document.createElement('div');
     error.style = 'z-index: 2; text-align: center; background-color: rgba(0, 0, 0, 0.7)';
     error.style.position = 'fixed';
     error.style.width = '800px';

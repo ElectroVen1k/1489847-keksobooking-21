@@ -8,7 +8,7 @@
   const RIGHT_EXTREME_COORD = 1200 - MAIN_PIN_WIDTH / 2;
   const TOP_EXTREME_COORD = 130 - MAIN_PIN_HEIGHT - MAIN_PIN_ARROWHEAD;
   const BOTTOM_EXTREME_COORD = 630 - MAIN_PIN_HEIGHT - MAIN_PIN_ARROWHEAD;
-  const PRIMARY_MAIN_PIN_COORD = {
+  const PrimaryMainPinCoord = {
     x: 570,
     y: 375
   };
@@ -71,7 +71,7 @@
   });
 
   window.returnMainPin = function () {
-    mainPin.style.top = (PRIMARY_MAIN_PIN_COORD.y) + 'px';
-    mainPin.style.left = (PRIMARY_MAIN_PIN_COORD.x) + 'px';
+    mainPin.style.top = (PrimaryMainPinCoord.y) + 'px';
+    mainPin.style.left = (PrimaryMainPinCoord.x) + 'px';
   };
 }());

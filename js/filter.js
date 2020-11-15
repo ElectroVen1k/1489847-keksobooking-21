@@ -74,6 +74,7 @@
 
   const filterOut = function () {
     window.debouce(renderFilteredList);
+    window.removeCard();
   };
 
   filterAnnouncementForm.addEventListener('change', filterOut);

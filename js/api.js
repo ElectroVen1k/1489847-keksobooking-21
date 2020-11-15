@@ -1,14 +1,14 @@
 'use strict';
 (function () {
-  var loadURL = 'https://21.javascript.pages.academy/keksobooking/data';
-  var uploadURL = 'https://21.javascript.pages.academy/keksobooking';
-  var StatusCode = {
+  const loadURL = 'https://21.javascript.pages.academy/keksobooking/data';
+  const uploadURL = 'https://21.javascript.pages.academy/keksobooking';
+  const StatusCode = {
     OK: 200
   };
-  var TIMEOUT_IN_MS = 5000;
+  const TIMEOUT_IN_MS = 5000;
 
   window.load = function (onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
@@ -32,7 +32,7 @@
   };
 
   window.upload = function (data, onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
